@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NUMAD22Sp_BenjaminHeflin</string>
+    <string name="ben_s_button_string">Ben\'s Button</string>
+    <string name="benjamin_heflin_s_app_string">Benjamin Heflin\'s App</string>
+    <string name="ben_s_about_me_string">Ben\'s About Me</string>
 </resources>
