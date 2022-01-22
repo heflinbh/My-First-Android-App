@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        MADConfig {
+            storeFile file('/Users/benjaminheflin/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Northeastern University/CS 5520/BHKeystore')
+            storePassword 'hEwpyz-vunqe9-xeknig'
+            keyPassword 'hEwpyz-vunqe9-xeknig'
+            keyAlias 'BHKeystore'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -19,6 +27,21 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.MADConfig
+
+            // Below portion copied from https://www.geeksforgeeks.org/how-to-change-the-default-generated-apk-name-in-android-studio/
+            applicationVariants.all{
+                variant ->
+                    variant.outputs.each{
+                        output->
+                            def name = "NUMAD22Sp_BenjaminHeflin.apk"
+                            output.outputFileName = name
+                    }
+            }
+
+
+
+
         }
     }
     compileOptions {

@@ -21,14 +21,11 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.textView);
 
-        if (!personNameText.equals("")) {
-            textView.setText("Hello " + personNameText.getText().toString() + "!" +
+        if (!personNameText.getText().toString().equals("")) {
+            textView.setText("Howdy " + personNameText.getText().toString() + "!" +
                              "\nMy name is Benjamin Heflin. Nice to meet you!" +
                              "\nFeel free to reach me at heflin.be@northeastern.edu" +
-                             "\nSee you around!"
-
-
-            /*textView.setText("Hello" + personNameText.getText().toString()*/);;
+                             "\nSee you around!");;
         }
 
         else {
