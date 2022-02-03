@@ -9,8 +9,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$USER_HOME$/Desktop/Northeastern University/CS 5520/My-First-Android-App/NUMAD22Sp_BenjaminHeflin" />
+            <option value="$USER_HOME$/Desktop/Northeastern University/CS 5520/My-First-Android-App/NUMAD22Sp_BenjaminHeflin/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

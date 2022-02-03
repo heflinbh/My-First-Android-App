@@ -25,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("Howdy " + personNameText.getText().toString() + "!" +
                              "\nMy name is Benjamin Heflin. Nice to meet you!" +
                              "\nFeel free to reach me at heflin.be@northeastern.edu" +
-                             "\nSee you around!");;
+                             "\nSee you around!");
         }
 
         else {
-            textView.setText("Benjamin Heflin's App");
+            textView.setText("Hello World!");
         }
     }
 }
