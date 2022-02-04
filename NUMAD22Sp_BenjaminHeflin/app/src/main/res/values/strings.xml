@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">NUMAD22Sp_BenjaminHeflin</string>
-    <string name="ben_s_button_string">Ben\'s Button</string>
-    <string name="benjamin_heflin_s_app_string">Benjamin Heflin\'s App</string>
-    <string name="ben_s_about_me_string">Ben\'s About Me</string>
-    <string name="click_here_string">Click Here!</string>
     <string name="enter_your_name_here_string">Enter your name here</string>
     <string name="about_me">About Me</string>
+    <string name="clicky_clicky">Clicky Clicky</string>
+    <string name="ButtonA">A</string>
+    <string name="ButtonB">B</string>
+    <string name="ButtonC">C</string>
+    <string name="ButtonE">E</string>
+    <string name="ButtonD">D</string>
+    <string name="ButtonF">F</string>
 </resources>
