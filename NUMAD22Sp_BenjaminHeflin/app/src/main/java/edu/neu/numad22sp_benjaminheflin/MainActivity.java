@@ -2,6 +2,7 @@ package edu.neu.numad22sp_benjaminheflin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.ClickyClicky:
-                Toast.makeText(getApplicationContext(), "Success!!!", Toast.LENGTH_SHORT).show();
+                Intent clickyActivityIntent = new Intent(getApplicationContext(), ClickyActivity.class);
+                startActivity(clickyActivityIntent);
                 break;
         }
 
