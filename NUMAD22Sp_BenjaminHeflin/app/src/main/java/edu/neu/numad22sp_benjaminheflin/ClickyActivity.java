@@ -23,6 +23,6 @@ public class ClickyActivity extends AppCompatActivity {
         String buttonText = button.getText().toString();
 
         TextView textView = findViewById(R.id.ClickyText);
-        textView.setText("Pressed " + buttonText);
+        textView.setText("Pressed: " + buttonText);
     }
 }

@@ -2,6 +2,7 @@ package edu.neu.numad22sp_benjaminheflin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,16 +22,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.AboutMeButton:
-                EditText personNameText = findViewById(R.id.personName);
-                TextView textView = findViewById(R.id.textView);
-                if (!personNameText.getText().toString().equals("")) {
-                    textView.setText("Howdy " + personNameText.getText().toString() + "!" +
-                            "\nMy name is Benjamin Heflin. Nice to meet you!" +
-                            "\nFeel free to reach me at heflin.be@northeastern.edu" +
-                            "\nSee you around!");
-                } else {
-                    textView.setText("Hello World!");
-                }
+                Context context = getApplicationContext();
+                CharSequence text = "Email: heflin.be@northeastern.edu";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 break;
 
             case R.id.ClickyClicky:

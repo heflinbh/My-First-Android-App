@@ -9,5 +9,5 @@
     <string name="ButtonE">E</string>
     <string name="ButtonD">D</string>
     <string name="ButtonF">F</string>
-    <string name="ClickyText">Pressed -</string>
+    <string name="ClickyText">Pressed: -</string>
 </resources>
