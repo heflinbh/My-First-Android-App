@@ -10,4 +10,9 @@
     <string name="ButtonD">D</string>
     <string name="ButtonF">F</string>
     <string name="ClickyText">Pressed: -</string>
+    <string name="benjamin_heflin_email">Benjamin Heflin\'s Email:\nheflin.be@northeastern.edu</string>
+    <string name="link_collector">Link Collector</string>
+    <string name="add_link">Add Link</string>
+    <string name="link_name">Link Name</string>
+    <string name="link_address">Link Address</string>
 </resources>

@@ -2,13 +2,9 @@ package edu.neu.numad22sp_benjaminheflin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,17 +18,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.AboutMeButton:
-                Context context = getApplicationContext();
-                CharSequence text = "Email: heflin.be@northeastern.edu";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                Intent aboutMeActivityIntent = new Intent(getApplicationContext(), AboutMeActivity.class);
+                startActivity(aboutMeActivityIntent);
                 break;
 
-            case R.id.ClickyClicky:
+            case R.id.ClickyClickyButton:
                 Intent clickyActivityIntent = new Intent(getApplicationContext(), ClickyActivity.class);
                 startActivity(clickyActivityIntent);
+                break;
+
+            case R.id.LinkCollectorButton:
+                Intent LinkCollectActivityIntent = new Intent(getApplicationContext(), LinkCollectorActivity.class);
+                startActivity(LinkCollectActivityIntent);
                 break;
         }
 
