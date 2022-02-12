@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,45 @@ public class LinkCollectorActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String linkName = data.getExtras().getString("Link Name");
+                String linkAddress = data.getExtras().getString("Link Address");
+
+                linkList.add(new LinkItem(linkName, linkAddress));
+                adapter.notifyItemChanged(0);
+
+                Snackbar snackbar = Snackbar.make(recyclerView, "Success!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+            }
+
+            else if (resultCode == RESULT_CANCELED) {
+                String problems = data.getExtras().getString("Problems");
+                if (problems.equals("Name")) {
+                    // ADD WARNING FOR NAME
+                    Snackbar snackbar = Snackbar.make(recyclerView, "Bad Name!", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if (problems.equals("Address")) {
+                    // ADD WARNING FOR ADDRESS
+                    Snackbar snackbar = Snackbar.make(recyclerView, "Bad Address!", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if (problems.equals("None")) {
+                    // CONFIRM CANCELLATION
+                    Snackbar snackbar = Snackbar.make(recyclerView, "We Canceled!", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+            }
+        }
+
+    }
+
     private void setAdapter() {
         adapter = new Adapter(linkList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -55,10 +95,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
     public void addLink() {
         Intent newLinkActivityIntent = new Intent(getApplicationContext(), NewLinkActivity.class);
-        startActivity(newLinkActivityIntent);
-
-        linkList.add(new LinkItem("Link 4", "Address 4"));
-        adapter.notifyItemChanged(0);
+        startActivityForResult(newLinkActivityIntent, 1);
     }
 
     // Handling Orientation Changes on Android
