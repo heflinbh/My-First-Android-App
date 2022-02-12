@@ -1,133 +1,110 @@
 package edu.neu.numad22sp_benjaminheflin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+
 public class LinkCollectorActivity extends AppCompatActivity {
 
-    private ArrayList<LinkItem> linkList = new ArrayList<>();
-
+    private ArrayList<LinkItem> linkList;
     private RecyclerView recyclerView;
     private Adapter adapter;
-    private RecyclerView.LayoutManager layoutManger;
-    private FloatingActionButton floatButton;
+    private FloatingActionButton floatingActionButton;
 
-    private final String STRING_SEPARATOR = ":::";
-
+    private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
+    private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_collector);
 
-        init(savedInstanceState);
+        recyclerView = findViewById(R.id.recycler_view);
+        linkList = new ArrayList<>();
 
-        floatButton = findViewById(R.id.floatingActionButton);
-        floatButton.setOnClickListener(new View.OnClickListener() {
+        setAdapter();
+        setLinkInfo();
+        initialize(savedInstanceState);
+
+        floatingActionButton = findViewById(R.id.FloatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = 0;
-                addLink(pos);
+                addLink();
             }
         });
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Toast.makeText(LinkCollectorActivity.this, "Delete an item", Toast.LENGTH_SHORT).show();
-                int position = viewHolder.getLayoutPosition();
-                linkList.remove(position);
-
-                adapter.notifyItemRemoved(position);
-
-            }
-        });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void init(Bundle savedInstanceState) {
-
-        initialItemData(savedInstanceState);
-        createRecyclerView();
+    private void setAdapter() {
+        adapter = new Adapter(linkList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
-    private void addLink(int position) {
-        linkList.add(position, new LinkItem("New Name", "New Address"));
-        Toast.makeText(LinkCollectorActivity.this, "Add an item", Toast.LENGTH_SHORT).show();
-
-        adapter.notifyItemInserted(position);
+    private void setLinkInfo() {
+        linkList.add(new LinkItem("Link 1", "Address 1"));
+        linkList.add(new LinkItem("Link 2", "Address 2"));
+        linkList.add(new LinkItem("Link 3", "Address 3"));
     }
 
+    public void addLink() {
+        Intent newLinkActivityIntent = new Intent(getApplicationContext(), NewLinkActivity.class);
+        startActivity(newLinkActivityIntent);
+
+        linkList.add(new LinkItem("Link 4", "Address 4"));
+        adapter.notifyItemChanged(0);
+    }
+
+    // Handling Orientation Changes on Android
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
-        int i = 0;
-        for (LinkItem link : linkList) {
-            outState.putString(String.valueOf(i), link.getLinkName() + STRING_SEPARATOR + link.getLinkAddress());
-            i += 1;
+
+        int size = linkList == null ? 0 : linkList.size();
+        outState.putInt(NUMBER_OF_ITEMS, size);
+
+        // Need to generate unique key for each item
+        // This is only a possible way to do, please find your own way to generate the key
+        for (int i = 0; i < size; i++) {
+
+            outState.putString(KEY_OF_INSTANCE + i + "1", linkList.get(i).getLinkName());
+
+            outState.putString(KEY_OF_INSTANCE + i + "2", linkList.get(i).getLinkAddress());
         }
         super.onSaveInstanceState(outState);
     }
 
-
-    private void initialItemData(Bundle savedInstanceState) {
-
-        if (savedInstanceState != null) {
+    private void initialize(Bundle savedInstanceState) {
+        // Not the first time to open this Activity
+        if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)) {
             if (linkList == null || linkList.size() == 0) {
 
-                for (int i = 0; i < savedInstanceState.size(); i++) {
+                int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
 
-                    String[] values = savedInstanceState.getString(String.valueOf(i)).split(STRING_SEPARATOR);
+                // Retrieve keys we stored in the instance
+                for (int i = 0; i < size; i++) {
 
-                    String linkName = values[0];
-                    String linkAddress = values[1];
+                    String linkName = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
+                    String linkAddress = savedInstanceState.getString(KEY_OF_INSTANCE + i + "2");
 
-                    LinkItem linkItem = new LinkItem(linkName, linkAddress);
-                    linkList.add(linkItem);
+                    LinkItem link = new LinkItem(linkName, linkAddress);
+
+                    linkList.add(link);
                 }
             }
         }
-    }
-
-    private void createRecyclerView() {
-
-
-        layoutManger = new LinearLayoutManager(this);
-
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        adapter = new Adapter(linkList);
-        LinkItem linkItem = new LinkItem() {
-            @Override
-            public void onLinkClick(int position) {
-                //attributions bond to the item has been changed
-                linkList.get(position).onLinkClick(position);
-
-                adapter.notifyItemChanged(position);
-            }
-        };
-        adapter.setOnLinkClickListener(linkItem);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManger);
-
-
     }
 }

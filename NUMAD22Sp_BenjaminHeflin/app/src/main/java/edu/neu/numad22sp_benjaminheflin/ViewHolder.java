@@ -7,26 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView itemIcon;
     public TextView linkName;
     public TextView linkAddress;
 
-    public ViewHolder(View itemView, final LinkItem linkItem) {
-        super(itemView);
-        this.linkName = itemView.findViewById(R.id.link_name);
-        this.linkAddress = itemView.findViewById(R.id.link_address);
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (linkItem != null) {
-                    int position = getLayoutPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-
-                        linkItem.onLinkClick(position);
-                    }
-                }
-            }
-        });
+    public ViewHolder(final View view) {
+        super(view);
+        this.linkName = view.findViewById(R.id.link_name);
+        this.linkAddress = view.findViewById(R.id.link_address);
     }
 }

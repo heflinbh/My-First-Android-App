@@ -15,4 +15,8 @@
     <string name="add_link">Add Link</string>
     <string name="link_name">Link Name</string>
     <string name="link_address">Link Address</string>
+    <string name="website_name">Website Name</string>
+    <string name="url">URL</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 </resources>

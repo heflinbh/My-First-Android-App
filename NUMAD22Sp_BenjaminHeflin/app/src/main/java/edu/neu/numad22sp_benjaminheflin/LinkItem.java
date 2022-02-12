@@ -1,5 +1,7 @@
 package edu.neu.numad22sp_benjaminheflin;
 
+import android.widget.Toast;
+
 public class LinkItem {
 
     private String linkName;
@@ -24,9 +26,5 @@ public class LinkItem {
 
     public void setLinkAddress(String linkAddress) {
         this.linkAddress = linkAddress;
-    }
-
-    public void onLinkClick(int position) {
-        // Perform onClick stuff
     }
 }
