@@ -3,10 +3,12 @@ package edu.neu.numad22sp_benjaminheflin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,15 +25,13 @@ public class LinkCollectorActivity extends AppCompatActivity {
     private Adapter adapter;
     private FloatingActionButton floatingActionButton;
 
-    private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
-    private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_collector);
 
         recyclerView = findViewById(R.id.recycler_view);
+
         linkList = new ArrayList<>();
 
         setAdapter();
@@ -44,6 +44,26 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 addLink();
             }
         });
+
+        //Specify what action a specific gesture performs, in this case swiping right or left deletes the entry
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                Toast.makeText(LinkCollectorActivity.this, "Delete an item", Toast.LENGTH_SHORT).show();
+                int position = viewHolder.getLayoutPosition();
+                linkList.remove(position);
+
+                adapter.notifyItemRemoved(position);
+
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -58,31 +78,16 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 linkList.add(new LinkItem(linkName, linkAddress));
                 adapter.notifyItemChanged(0);
 
-                Snackbar snackbar = Snackbar.make(recyclerView, "Success!", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(recyclerView, "Link successfully added.", Snackbar.LENGTH_SHORT);
                 snackbar.show();
 
             }
 
             else if (resultCode == RESULT_CANCELED) {
-                String problems = data.getExtras().getString("Problems");
-                if (problems.equals("Name")) {
-                    // ADD WARNING FOR NAME
-                    Snackbar snackbar = Snackbar.make(recyclerView, "Bad Name!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else if (problems.equals("Address")) {
-                    // ADD WARNING FOR ADDRESS
-                    Snackbar snackbar = Snackbar.make(recyclerView, "Bad Address!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else if (problems.equals("None")) {
-                    // CONFIRM CANCELLATION
-                    Snackbar snackbar = Snackbar.make(recyclerView, "We Canceled!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
+                Snackbar snackbar = Snackbar.make(recyclerView, "Link request canceled.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
             }
         }
-
     }
 
     private void setAdapter() {
@@ -98,41 +103,31 @@ public class LinkCollectorActivity extends AppCompatActivity {
         startActivityForResult(newLinkActivityIntent, 1);
     }
 
-    // Handling Orientation Changes on Android
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
-
-        int size = linkList == null ? 0 : linkList.size();
-        outState.putInt(NUMBER_OF_ITEMS, size);
-
-        // Need to generate unique key for each item
-        // This is only a possible way to do, please find your own way to generate the key
-        for (int i = 0; i < size; i++) {
-
-            outState.putString(KEY_OF_INSTANCE + i + "1", linkList.get(i).getLinkName());
-            outState.putString(KEY_OF_INSTANCE + i + "2", linkList.get(i).getLinkAddress());
+        int i = 0;
+        for (LinkItem link : linkList) {
+            outState.putString("Name" + i, link.getLinkName());
+            outState.putString("Address" + i, link.getLinkAddress());
+            i += 1;
         }
         super.onSaveInstanceState(outState);
     }
 
     private void initializeData(Bundle savedInstanceState) {
-        // Not the first time to open this Activity
-        if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)) {
-            if (linkList == null || linkList.size() == 0) {
+        if (savedInstanceState != null && (linkList == null || linkList.size() == 0)) {
 
-                int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
+            int i = 0;
+            while (savedInstanceState.getString("Name" + i) != null &&
+                    savedInstanceState.getString("Address" + i) != null) {
 
-                // Retrieve keys we stored in the instance
-                for (int i = 0; i < size; i++) {
+                String linkName = savedInstanceState.getString("Name" + i);
+                String linkAddress = savedInstanceState.getString("Address" + i);
+                linkList.add(new LinkItem(linkName, linkAddress));
 
-                    String linkName = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
-                    String linkAddress = savedInstanceState.getString(KEY_OF_INSTANCE + i + "2");
-
-                    LinkItem link = new LinkItem(linkName, linkAddress);
-
-                    linkList.add(link);
-                }
+                i += 1;
             }
         }
     }

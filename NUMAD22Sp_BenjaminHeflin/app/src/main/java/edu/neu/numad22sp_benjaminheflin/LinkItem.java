@@ -27,4 +27,7 @@ public class LinkItem {
     public void setLinkAddress(String linkAddress) {
         this.linkAddress = linkAddress;
     }
+
+    protected void onItemClick(int position) {
+    }
 }

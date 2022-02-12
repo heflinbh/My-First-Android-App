@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class NewLinkActivity extends AppCompatActivity {
 
     @Override
@@ -28,27 +30,24 @@ public class NewLinkActivity extends AppCompatActivity {
                 String linkName = textViewName.getText().toString();
                 String linkAddress = textViewAddress.getText().toString();
 
-                resultIntent.putExtra("Link Name", linkName);
-                resultIntent.putExtra("Link Address", linkAddress);
-
                 if (linkName.equals("")) {
-                    resultIntent.putExtra("Problems", "Name");
-                    setResult(RESULT_CANCELED, resultIntent);
+                    Snackbar snackbar = Snackbar.make(view, "Please enter a valid name.", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
                 }
                 else if (linkAddress.equals("")) {
-                    resultIntent.putExtra("Problems", "Address");
-                    setResult(RESULT_CANCELED, resultIntent);
+                    Snackbar snackbar = Snackbar.make(view, "Please enter a valid url.", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
                 }
                 else {
-                    resultIntent.putExtra("Problems", "None");
+                    resultIntent.putExtra("Link Name", linkName);
+                    resultIntent.putExtra("Link Address", linkAddress);
                     setResult(RESULT_OK, resultIntent);
+                    finish();
                 }
-                finish();
                 break;
 
             case R.id.cancelButton:
-                resultIntent.putExtra("Problems", "None");
-                setResult(RESULT_CANCELED, resultIntent);
+                setResult(RESULT_CANCELED, null);
                 finish();
                 break;
         }
