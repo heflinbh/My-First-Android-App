@@ -34,8 +34,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
         linkList = new ArrayList<>();
 
         setAdapter();
-        setLinkInfo();
-        initialize(savedInstanceState);
+        initializeData(savedInstanceState);
 
         floatingActionButton = findViewById(R.id.FloatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -52,12 +51,6 @@ public class LinkCollectorActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-    }
-
-    private void setLinkInfo() {
-        linkList.add(new LinkItem("Link 1", "Address 1"));
-        linkList.add(new LinkItem("Link 2", "Address 2"));
-        linkList.add(new LinkItem("Link 3", "Address 3"));
     }
 
     public void addLink() {
@@ -81,13 +74,12 @@ public class LinkCollectorActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
 
             outState.putString(KEY_OF_INSTANCE + i + "1", linkList.get(i).getLinkName());
-
             outState.putString(KEY_OF_INSTANCE + i + "2", linkList.get(i).getLinkAddress());
         }
         super.onSaveInstanceState(outState);
     }
 
-    private void initialize(Bundle savedInstanceState) {
+    private void initializeData(Bundle savedInstanceState) {
         // Not the first time to open this Activity
         if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)) {
             if (linkList == null || linkList.size() == 0) {
