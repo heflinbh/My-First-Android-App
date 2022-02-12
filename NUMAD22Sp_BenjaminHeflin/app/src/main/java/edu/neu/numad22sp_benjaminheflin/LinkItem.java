@@ -2,7 +2,7 @@ package edu.neu.numad22sp_benjaminheflin;
 
 import android.widget.Toast;
 
-public class LinkItem {
+public class LinkItem implements LinkClickListener {
 
     private String linkName;
     private String linkAddress;
@@ -28,6 +28,9 @@ public class LinkItem {
         this.linkAddress = linkAddress;
     }
 
-    protected void onItemClick(int position) {
+    @Override
+    public void onLinkClick(int position) {
+        this.linkName = "Benjamin Heflin";
+        this.linkAddress = "My Link";
     }
 }

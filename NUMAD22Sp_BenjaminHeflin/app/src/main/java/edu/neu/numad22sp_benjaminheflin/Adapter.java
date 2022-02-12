@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Adapter extends RecyclerView.Adapter<ViewHolder>{
 
     private final ArrayList<LinkItem> linkList;
+    private LinkClickListener listener;
 
     public Adapter (ArrayList<LinkItem> linkList) {
         this.linkList = linkList;
@@ -20,7 +21,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.link_items, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, listener);
     }
 
     @Override
@@ -36,4 +37,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder>{
         return linkList.size();
     }
 
+    public void setOnLinkClickListener(LinkClickListener listener) {
+        this.listener = listener;
+    }
 }

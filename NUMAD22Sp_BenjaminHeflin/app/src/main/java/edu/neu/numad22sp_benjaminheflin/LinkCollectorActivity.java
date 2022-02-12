@@ -24,6 +24,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Adapter adapter;
     private FloatingActionButton floatingActionButton;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 Toast.makeText(LinkCollectorActivity.this, "Delete an item", Toast.LENGTH_SHORT).show();
                 int position = viewHolder.getLayoutPosition();
                 linkList.remove(position);
-
                 adapter.notifyItemRemoved(position);
 
             }
@@ -92,10 +92,19 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
     private void setAdapter() {
         adapter = new Adapter(linkList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        layoutManager = new LinearLayoutManager(this);
+
+        LinkClickListener linkClickListener = new LinkClickListener() {
+            @Override
+            public void onLinkClick(int position) {
+                linkList.get(position).onLinkClick(position);
+                adapter.notifyItemChanged(position);
+            }
+        };
+
+        adapter.setOnLinkClickListener(linkClickListener);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     public void addLink() {
