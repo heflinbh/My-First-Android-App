@@ -1,6 +1,7 @@
 package edu.neu.numad22sp_benjaminheflin;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -47,20 +48,20 @@ public class LinkCollectorActivity extends AppCompatActivity {
         });
 
         //Specify what action a specific gesture performs, in this case swiping right or left deletes the entry
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-
                 return false;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Toast.makeText(LinkCollectorActivity.this, "Delete an item", Toast.LENGTH_SHORT).show();
                 int position = viewHolder.getLayoutPosition();
                 linkList.remove(position);
                 adapter.notifyItemRemoved(position);
 
+                Snackbar snackbar = Snackbar.make(recyclerView, "Link removed from list.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -97,14 +98,24 @@ public class LinkCollectorActivity extends AppCompatActivity {
         LinkClickListener linkClickListener = new LinkClickListener() {
             @Override
             public void onLinkClick(int position) {
-                linkList.get(position).onLinkClick(position);
-                adapter.notifyItemChanged(position);
+                String address = cleanAddress(linkList.get(position).getLinkAddress());
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(address));
+                startActivity(intent);
             }
         };
 
         adapter.setOnLinkClickListener(linkClickListener);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
+    }
+
+    public String cleanAddress(String address) {
+
+        if (!address.startsWith("http://") && !address.startsWith("https://")) {
+            address = "http://" + address;
+        }
+        return address;
     }
 
     public void addLink() {
