@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent LinkCollectActivityIntent = new Intent(getApplicationContext(), LinkCollectorActivity.class);
                 startActivity(LinkCollectActivityIntent);
                 break;
+
+            case R.id.LocationButton:
+                Intent LocationActivityIntent = new Intent(getApplicationContext(), LocationActivity.class);
+                startActivity(LocationActivityIntent);
+                break;
         }
 
 
