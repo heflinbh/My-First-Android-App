@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -20,10 +19,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class LocationActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_LOCATION = 1;
-    TextView latVal, longVal, locTypeVal;
+    TextView latVal, longVal;
 
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest locationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +30,19 @@ public class LocationActivity extends AppCompatActivity {
 
         latVal = findViewById(R.id.LatVal);
         longVal = findViewById(R.id.LongVal);
-        locTypeVal = findViewById(R.id.LocTypeVal);
 
         latVal.setText("");
         longVal.setText("");
-        locTypeVal.setText("");
-
-        locationRequest = new LocationRequest();
-        locationRequest.setInterval(30000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         updateGPS();
     }
 
-    private void inputValues(Location location, String locationType) {
+    private void inputValues(Location location) {
 
         latVal.setText(String.valueOf(location.getLatitude()));
         longVal.setText(String.valueOf(location.getLongitude()));
-        locTypeVal.setText(locationType);
 
     }
 
@@ -66,7 +56,7 @@ public class LocationActivity extends AppCompatActivity {
                     updateGPS();
                 }
                 else {
-                    Toast.makeText(this.getApplicationContext(), "No permission granted.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.getApplicationContext(), "Location Permission not granted.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
         }
@@ -75,36 +65,18 @@ public class LocationActivity extends AppCompatActivity {
 
     private void updateGPS() {
 
-        boolean finePermissionGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         boolean coarsePermissionGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        if (finePermissionGranted) {
-            Toast.makeText(this.getApplicationContext(), "Fine Permission Granted", Toast.LENGTH_SHORT).show();
-        }
         if (coarsePermissionGranted) {
-            Toast.makeText(this.getApplicationContext(), "Coarse Permission Granted", Toast.LENGTH_SHORT).show();
-        }
-
-        if (finePermissionGranted) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    inputValues(location, "FINE");
+                    inputValues(location);
                 }
             });
         }
-
-        else if (coarsePermissionGranted) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    inputValues(location, "COARSE");
-                }
-            });
-        }
-
         else {
-            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSIONS_LOCATION);
+            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSIONS_LOCATION);
         }
     }
 }

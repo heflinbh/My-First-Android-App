@@ -31,16 +31,6 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <TextView
-        android:id="@+id/LocationTypeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/location_type"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/LatitudeText"
-        app:layout_constraintTop_toTopOf="@+id/LatitudeText"
-        app:layout_constraintVertical_bias="0.4" />
-
-    <TextView
         android:id="@+id/LatVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,12 +47,4 @@
         app:layout_constraintTop_toTopOf="@+id/LatVal"
         app:layout_constraintVertical_bias="0.2" />
 
-    <TextView
-        android:id="@+id/LocTypeVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/LongVal"
-        app:layout_constraintTop_toTopOf="@+id/LatVal"
-        app:layout_constraintVertical_bias="0.4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
