@@ -57,7 +57,6 @@ public class LocationActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(this.getApplicationContext(), "Location Permission not granted.", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
         }
 
