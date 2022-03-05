@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">NUMAD22Sp_BenjaminHeflin</string>
     <string name="enter_your_name_here_string">Enter your name here</string>
-    <string name="about_me">About Me</string>
-    <string name="clicky_clicky">Clicky Clicky</string>
+    <string name="about_me">About\nMe</string>
+    <string name="clicky_clicky">Clicky\nClicky</string>
     <string name="ButtonA">A</string>
     <string name="ButtonB">B</string>
     <string name="ButtonC">C</string>
@@ -11,7 +11,7 @@
     <string name="ButtonF">F</string>
     <string name="ClickyText">Pressed: -</string>
     <string name="benjamin_heflin_email">Benjamin Heflin\'s Email:\nheflin.be@northeastern.edu</string>
-    <string name="link_collector">Link Collector</string>
+    <string name="link_collector">Link\nCollector</string>
     <string name="add_link">Add Link</string>
     <string name="link_name">Link Name</string>
     <string name="link_address">Link Address</string>
@@ -23,4 +23,7 @@
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
     <string name="location_type">Location Type:</string>
+    <string name="at_your_service">At\nYour\nService</string>
+    <string name="WeatherResponseText">Nothin yet</string>
+    <string name="start">start</string>
 </resources>
