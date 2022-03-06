@@ -24,6 +24,8 @@
     <string name="longitude">Longitude:</string>
     <string name="location_type">Location Type:</string>
     <string name="at_your_service">At\nYour\nService</string>
-    <string name="WeatherResponseText">Nothin yet</string>
+    <string name="WeatherResponseText">Click below to get current weather in Oxford, Ohio!</string>
     <string name="start">start</string>
+    <string name="weather_image">Weather Image</string>
+    <string name="get_weather">Get Weather</string>
 </resources>
