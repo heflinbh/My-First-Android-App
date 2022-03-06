@@ -36,6 +36,7 @@ public class ServiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service);
     }
 
+
     public void callWebserviceHandler(View view) {
 
         ImageView weather_image = findViewById(R.id.WeatherImageView);
@@ -62,6 +63,7 @@ public class ServiceActivity extends AppCompatActivity {
 
         wait_thread.start(); web_service_thread.start();
     }
+
 
     private class PleaseWaitServiceTask extends AsyncTask<Void, Void, Void> {
 
@@ -156,7 +158,7 @@ public class ServiceActivity extends AppCompatActivity {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            results[0] = "Something went wrong";
+            results[0] = "Uh oh...";
             return results;
 
         }
@@ -174,11 +176,13 @@ public class ServiceActivity extends AppCompatActivity {
         }
     }
 
+    // Helper method convertStreamToString from class videos/lecture
     private String convertStreamToString(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
         return scanner.hasNext() ? scanner.next().replace(", ", ",\n") : "";
     }
 
+    // The helper methods BitmapToString and StringToBitmap were found on https://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
     private String BitmapToString (Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -187,6 +191,7 @@ public class ServiceActivity extends AppCompatActivity {
         return temp;
     }
 
+    // The helper methods BitmapToString and StringToBitmap were found on https://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
     public Bitmap StringToBitmap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
